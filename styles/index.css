@@ -1,0 +1,322 @@
+@import url(reset.css);
+@import url(vars.css);
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap');
+:root{
+    --FF:'Rubik', sans-serif;
+    --WGHT-BOLD: 700;
+    --WGHT-MED: 500;
+    font-size: 16px;
+}
+
+body{
+    font-family: var(--FF);
+    background: var(--Very-light-gray);
+}
+.wrapper{
+    max-inline-size: 730px;
+    margin-inline: auto;
+    padding-block: 4rem;
+
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1.25rem;
+}
+
+
+.comment,.reply,.Myreply{
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto minmax(72px, 1fr);
+    grid-template-areas:
+    "rate user button"
+    "rate comment comment"
+    ;
+    gap: 1rem 1.5rem;
+
+    background-color: var(--White);
+    padding: 1.5rem;
+    border-radius: 8px;
+
+    position: relative;
+    overflow: hidden;
+}
+[data-editing="true"].Myreply, [data-editing="true"].comment{
+    grid-template-rows: auto minmax(120px, 1fr);
+    grid-template-areas:
+    "rate user button"
+    "rate comment comment"
+    ". . update"
+    ;
+}
+.update{
+    display: none;
+}
+[data-editing="true"] .update{
+    grid-area: update;
+    justify-self: end;
+    display: block;
+}
+
+
+
+
+.commentRate{
+    grid-area: rate;
+
+    background: var(--Very-light-gray);
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+
+   inline-size: 40px;
+   block-size: 100px;
+   padding-block: 12px;
+   border-radius: 10px;
+}
+.rateNumber{
+    font-weight: var(--WGHT-MED);
+    color: var(--Moderate-blue);
+    font-size: 1rem;
+    line-height: 1.2rem;
+
+}
+.plus,.minus{
+    inline-size: 11px;
+    block-size: 11px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    color: var(--Light-grayish-blue);
+}
+.plus:hover,.minus:hover{
+    color: var(--Moderate-blue);
+}
+
+
+
+.user{
+    grid-area: user;
+
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    user-select: none;
+}
+.userImg,.currentUserImg{
+    inline-size: 32px;
+    block-size: 32px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.userName,.createdAt{
+    font-weight: var(--WGHT-MED);
+    color: var(--Dark-blue);
+    font-size: 1rem;
+    line-height: 1.2rem;
+}
+.createdAt{
+    color: var(--Grayish-Blue);
+    font-weight: initial;
+}
+.replyInvoker{
+    grid-area: button;
+}
+.replyInvoker>button, .delete, .edit,.deleteOldRep{
+    display: flex;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    color: var(--Moderate-blue);
+
+    font-family: inherit;
+    font-weight: var(--WGHT-MED);
+    font-size: 1rem;
+    line-height: 1.5rem;
+    gap: 8px;
+
+    cursor: pointer;
+}
+.replyInvoker>button:active{
+    gap: 11px;
+}
+.options{
+    display: flex;
+    gap: 1.5rem;
+}
+.delete,.deleteOldRep{
+    color: var(--Soft-Red);
+}
+.delete:hover,.deleteOldRep:hover{
+    color: var(--Pale-red);
+}
+.replyInvoker>button:hover, .edit:hover{
+    color:var(--Light-grayish-blue)
+}
+
+.content{
+    grid-area: comment;
+
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: var(--Grayish-Blue);
+
+    position: relative;
+}
+
+.toEdit{
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+
+
+    display: none;
+    resize: none;
+    border-radius: 8px;
+    border: 1px solid var(--Grayish-Blue);
+    outline: none;
+    padding-block: 12px;
+    padding-inline: 1.5rem;
+    font-family: inherit;
+}
+[data-edit="true"] .toEdit{
+    display: block;
+}
+
+
+.replyFactory,.commentFactory{
+    display: none;
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+    background-color: var(--White);
+    margin-block-start: 8px;
+    border-radius: 8px;
+    padding: 1.5rem;
+    align-items: start;
+} 
+[data-post="opened"] .replyFactory{
+    display: grid;
+}
+.commentFactory{
+    display: grid;
+    margin-block-start: 0px;
+}
+textarea{
+    block-size: 96px;
+    resize: none;
+    border-radius: inherit;
+    border: 1px solid var(--Grayish-Blue);
+    outline: none;
+    padding-block: 12px;
+    padding-inline: 1.5rem;
+    font-family: inherit;
+
+}
+textarea:focus{
+    border: 1px solid var(--Moderate-blue);
+}
+.replyBtn,.commentBtn, .update{
+    border: none;
+    background: var(--Moderate-blue);
+    color: var(--White);
+    font-weight: var(--WGHT-MED);
+    font-size: 1rem;
+    line-height: 1.5rem;
+    padding-inline: 1.9rem;
+    padding-block: 12px;
+    border-radius: inherit;
+    cursor: pointer;
+    transition: background .2s ease;
+}
+.replyBtn:hover,.commentBtn:hover,.update:hover{
+    background: var(--Light-grayish-blue);
+}
+
+.replies{
+    display: none;
+    margin-block: 1.5rem;
+
+    flex-flow: column nowrap;
+    gap: 1.5rem;
+
+    border-inline-start: 2px solid var(--Light-gray);
+    margin-inline-start: 2.68rem;
+    padding-inline-start: 2.68rem;
+}
+
+[data-replies="exist"] .replies{
+    display: flex;
+}
+
+.overlay{
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.315);
+
+    display: none;
+    place-items: center;
+}
+.ask{
+    background-color: var(--White);
+    padding: 2rem;
+    gap: 1.25rem;
+    flex-direction: column;
+    max-inline-size: 400px;
+    border-radius: 8px;
+    display: flex;
+    
+}
+[data-ask="show"] .overlay{
+    display: grid;
+}
+h2{
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+}
+.ask>p{
+    font-size: 16px;
+    line-height: 24px;
+}
+.buttons{
+    display: flex;
+    gap: 1rem;
+
+    block-size: 48px;
+}
+.buttons>*{
+    flex: 1;
+}
+.no,.yes{
+    border: none;
+    color: white;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.no{
+    background-color: var(--Grayish-Blue);
+}
+.yes{
+    background-color: var(--Soft-Red);
+}
+.tag{
+    color: var(--Moderate-blue);
+    font-weight: var(--WGHT-MED);
+}
+.meLabel{
+    background: var(--Moderate-blue);
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 15px;
+    padding-inline: 6px;
+    padding-block: 1px 3px;
+    border-radius: 3px;
+    color: white;
+}
