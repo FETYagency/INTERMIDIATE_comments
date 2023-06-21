@@ -290,6 +290,7 @@ fetch(request)
 
     commentBtn.addEventListener("click", ()=>{
         if(input.value.length>0){
+            console.log(`ifdjalsd`)
             createPost(input.value, currentUser.image.png, currentUser.username)
         }
         input.value=""

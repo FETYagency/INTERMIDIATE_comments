@@ -13,7 +13,7 @@ body{
     background: var(--Very-light-gray);
 }
 .wrapper{
-    max-inline-size: 730px;
+    inline-size: min(730px, 95%);
     margin-inline: auto;
     padding-block: 4rem;
 
@@ -121,7 +121,7 @@ body{
     color: var(--Grayish-Blue);
     font-weight: initial;
 }
-.replyInvoker{
+.replyInvoker, .options{
     grid-area: button;
 }
 .replyInvoker>button, .delete, .edit,.deleteOldRep{
@@ -146,11 +146,11 @@ body{
     display: flex;
     gap: 1.5rem;
 }
-.delete,.deleteOldRep{
-    color: var(--Soft-Red);
+.delete{
+    color: var(--Soft-Red)!important;
 }
-.delete:hover,.deleteOldRep:hover{
-    color: var(--Pale-red);
+.delete:hover{
+    color: var(--Pale-red)!important;
 }
 .replyInvoker>button:hover, .edit:hover{
     color:var(--Light-grayish-blue)
@@ -319,4 +319,104 @@ h2{
     padding-block: 1px 3px;
     border-radius: 3px;
     color: white;
+}
+
+@media(width<700px){
+
+    .wrapper{
+        padding-block: 2rem;
+    }
+    
+    .comment,.reply,.Myreply{
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        grid-template-rows: auto minmax(72px, 1fr);
+        grid-template-areas:
+        "user user user"
+        "comment comment comment"
+        "rate . button"
+        ;
+        gap: 1rem 0rem;
+    
+        background-color: var(--White);
+        padding: 1.5rem;
+        border-radius: 8px;
+    
+        position: relative;
+        overflow: hidden;
+    }
+    [data-editing="true"].Myreply, [data-editing="true"].comment{
+        grid-template-rows: auto minmax(120px, 1fr);
+        grid-template-areas:
+        "user user user"
+        "comment comment comment"
+        "rate . button"
+        ". . update"
+        ;
+    }
+
+    .commentRate{
+        grid-area: rate;
+    
+        background: var(--Very-light-gray);
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: center;
+        gap: 1.25rem;
+    
+       block-size: 40px;
+       inline-size: 100px;
+       padding-block: 12px;
+       border-radius: 10px;
+    }
+
+    .replies{
+        display: none;
+        margin-block: 1.5rem;
+    
+        flex-flow: column nowrap;
+        gap: 1.5rem;
+    
+        border-inline-start: 2px solid var(--Light-gray);
+        margin-inline-start: 1rem;
+        padding-inline-start: 1rem;
+    }
+    .content{
+        grid-area: comment;
+        
+        padding-block-end: 1.5625rem;
+    }
+    .replyFactory,.commentFactory{
+        display: none;
+        grid-template-columns:1fr 1fr;
+        grid-template-areas: 
+        'input input'
+        'img btn'
+        ;
+        gap: 1rem;
+        background-color: var(--White);
+        margin-block-start: 8px;
+        border-radius: 8px;
+        padding: 1.5rem;
+        align-items: start;
+    } 
+    .currentUserImg{
+        grid-area: img;
+    }
+    .currentUserComment,.replyFactory>textarea{
+        grid-area: input;
+    }
+    .commentBtn, .replyBtn{
+        grid-area: btn;
+    }
+    [data-post="opened"] .replyFactory{
+        display: grid;
+    }
+    .commentFactory{
+        display: grid;
+    }
+    .ask{
+        inline-size: min(343px, 95%);
+    }
 }
